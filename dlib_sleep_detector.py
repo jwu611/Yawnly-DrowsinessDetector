@@ -12,15 +12,22 @@ import numpy as np
 import imutils
 import time
 import dlib
-import cv2
-from datetime import datetime
+import cv2	#opencv library - pip install opencv-python
+from datetime import datetime, timedelta
 #from playsound import playsound
+#import vlc	#import vlc module for sound - pip3 install python-vlc
+import pygame
+from pygame import mixer
 
 EYES_CLOSED_FLAG = 0	#1 if eyes closed, 0 otherwise
 sleep_start = None 	# time first asleep; None = never asleep
 CLOSED_EAR_THRESHOLD = 10 	#All EAR under this threshold is considered closed eyes
-SLEEP_THRESHOLD_SECS = 5	#Number of seconds until considered asleep
+SLEEP_THRESHOLD_SECS = 2	#Number of seconds until considered asleep
 MIN_SLEEP_TIME = 5		# Minimum number of seconds of eyes closed to be considered 'asleep'
+DEFAULT_ALARM = "./assets/Alarm-ringtone.mp3"
+UPLOADED_ALARM = None
+pygame.mixer.pre_init(44100, 16, 2, 4096) #frequency, size, channels, buffersize
+mixer.init() #Initialzing pygame mixer
 
 def eye_aspect_ratio(eye):
 	# compute the euclidean distances between the two sets of
@@ -50,7 +57,7 @@ predictor = dlib.shape_predictor("./shape_predictor_68_face_landmarks.dat")
 def detect_draw_eyes (frame, grayframe):
 	global EYES_CLOSED_FLAG, sleep_start
 
-	timediff = 0
+	timediff = timedelta()
 	rects = detector(grayframe, 0)
 	# loop over the face detections
 	for rect in rects:
@@ -83,11 +90,16 @@ def detect_draw_eyes (frame, grayframe):
 			sleep_start = datetime.now()		# time object recording time when eyes first closed
 			print("sleep started")	
 		
-		#else if EYES_CLOSED_FLAG == 1 and ear <= CLOSED_EAR_THRESHOLD:
+		elif EYES_CLOSED_FLAG == 1 and ear <= CLOSED_EAR_THRESHOLD:
+			if sleep_start != None:	# sleep has started
+				timediff = datetime.now()-sleep_start
+				print("asleep")
+				if timediff.seconds >= SLEEP_THRESHOLD_SECS:
+					play_alarm()
+
 		elif EYES_CLOSED_FLAG == 1 and ear > CLOSED_EAR_THRESHOLD:
 			EYES_CLOSED_FLAG = 0
 			sleep_end = datetime.now()
-
 			if sleep_start != None:	# sleep has started
 				timediff = sleep_end-sleep_start
 				if timediff.seconds >= MIN_SLEEP_TIME:
@@ -96,8 +108,30 @@ def detect_draw_eyes (frame, grayframe):
 				sleep_start = None	
 	return timediff, frame
 
-		# show the frame
-	#cv2.imshow("Frame", frame)
+
+def play_alarm():
+	key = cv2.waitKey(1) & 0xFF
+	mixer.music.set_volume(0.7)
+	if UPLOADED_ALARM == None:
+		#alarm = vlc.MediaPlayer(DEFAULT_ALARM)
+		currAlarm = DEFAULT_ALARM 
+	else:
+		#alarm = vlc.MediaPlayer(UPLOADED_ALARM)
+		currAlarm = UPLOADED_ALARM
+	print("curr alarm is "+currAlarm)
+	print("mixer status is "+str(mixer.music.get_busy()))
+	while True:
+		#alarm.play()
+		time.sleep(0.5)
+		if mixer.music.get_busy() == False:
+			print("starting alarm")
+			mixer.music.load(currAlarm) #Loading Music File
+			mixer.music.play()
+		if key == ord("q"):
+			print("stopping alarm")
+			mixer.music.stop()
+			break
+
 
 
 	

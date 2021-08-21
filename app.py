@@ -1,27 +1,31 @@
 #Import necessary libraries
 import imutils
 from flask import Flask, render_template, Response
-from dlib_sleep_detector import detect_draw_eyes
+from dlib_sleep_detector import SLEEP_THRESHOLD_SECS, detect_draw_eyes
 from imutils.video import VideoStream
 from imutils.video import FileVideoStream
 from imutils import face_utils
 import cv2
-
+import time
 from datetime import datetime
 #Initialize the Flask app
 app = Flask(__name__)
 
 camera = cv2.VideoCapture(0)
-
+time.sleep(1)
 def generate():  
     while True:
         success, frame = camera.read()  # read the camera frame
         if not success:
+            camera.release()
             break
         else:
             frame = imutils.resize(frame, width=450)
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             timediff, frame = detect_draw_eyes (frame, gray)
+            if timediff.total_seconds() >= SLEEP_THRESHOLD_SECS:
+                camera.release()
+                break
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
