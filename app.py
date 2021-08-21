@@ -1,7 +1,7 @@
 #Import necessary libraries
 import imutils
 from flask import Flask, render_template, Response
-from dlib_sleep_detector import SLEEP_THRESHOLD_SECS, detect_draw_eyes
+from dlib_sleep_detector import SLEEP_THRESHOLD_SECS, detect_draw_eyes, set_uploaded_alarm
 from imutils.video import VideoStream
 from imutils.video import FileVideoStream
 from imutils import face_utils

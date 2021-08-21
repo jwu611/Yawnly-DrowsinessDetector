@@ -18,6 +18,7 @@ from datetime import datetime, timedelta
 #import vlc	#import vlc module for sound - pip3 install python-vlc
 import pygame
 from pygame import mixer
+import keyboard
 
 EYES_CLOSED_FLAG = 0	#1 if eyes closed, 0 otherwise
 sleep_start = None 	# time first asleep; None = never asleep
@@ -110,28 +111,27 @@ def detect_draw_eyes (frame, grayframe):
 
 
 def play_alarm():
-	key = cv2.waitKey(1) & 0xFF
 	mixer.music.set_volume(0.7)
 	if UPLOADED_ALARM == None:
-		#alarm = vlc.MediaPlayer(DEFAULT_ALARM)
 		currAlarm = DEFAULT_ALARM 
 	else:
-		#alarm = vlc.MediaPlayer(UPLOADED_ALARM)
 		currAlarm = UPLOADED_ALARM
 	print("curr alarm is "+currAlarm)
 	print("mixer status is "+str(mixer.music.get_busy()))
 	while True:
-		#alarm.play()
 		time.sleep(0.5)
 		if mixer.music.get_busy() == False:
 			print("starting alarm")
 			mixer.music.load(currAlarm) #Loading Music File
 			mixer.music.play()
-		if key == ord("q"):
+		if keyboard.read_key() == "q":
 			print("stopping alarm")
 			mixer.music.stop()
 			break
 
+def set_uploaded_alarm(alarm_filename):
+	global UPLOADED_ALARM
+	UPLOADED_ALARM = "./assets/"+alarm_filename
 
 
 	
