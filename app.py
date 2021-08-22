@@ -28,7 +28,6 @@ def generate():
     global DETECTION_ON, SLEEP_THRESHOLD_SECS
     frame_count = 0  
     while True:
-        #time.sleep(0.5)
         success, frame = camera.read()  # read the camera frame
         if not success:
             camera.release()
@@ -38,13 +37,11 @@ def generate():
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
             if DETECTION_ON:
-                if frame_count % 3 == 0:
+                if frame_count % 3 == 0:    #only detect every 3rd frame -> imporves performance and does not impact detection accuracy
                     frame, keep_detecting = detect_draw_eyes (frame, gray)
                     if not keep_detecting:
-                        #print("app sleep thresh = "+str(SLEEP_THRESHOLD_SECS))
                         DETECTION_ON = False
-                        #camera.release()
-                        #break
+
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
