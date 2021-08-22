@@ -52,8 +52,15 @@ def generate():
         frame_count += 1
     print("exiting generate")
 
-@app.route('/', methods=["GET", "POST"])
+@app.route('/', methods=["GET","POST"])
 def index():
+    if request.method=="POST":
+        return render_template('index.html')
+    else:
+        return render_template('slider.html')
+
+@app.route('/yawn', methods=["GET", "POST"])
+def yawn():
     global SLEEP_THRESHOLD_SECS, DETECTION_ON
 
     if request.method == "POST":
