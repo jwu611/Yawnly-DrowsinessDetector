@@ -39,9 +39,9 @@ def generate():
 
             if DETECTION_ON:
                 if frame_count % 3 == 0:
-                    timediff, frame = detect_draw_eyes (frame, gray)
-                    if timediff.total_seconds() >= SLEEP_THRESHOLD_SECS:
-                        print("app sleep thresh = "+str(SLEEP_THRESHOLD_SECS))
+                    frame, keep_detecting = detect_draw_eyes (frame, gray)
+                    if not keep_detecting:
+                        #print("app sleep thresh = "+str(SLEEP_THRESHOLD_SECS))
                         DETECTION_ON = False
                         #camera.release()
                         #break
@@ -50,14 +50,16 @@ def generate():
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
         frame_count += 1
+    print("exiting generate")
 
 @app.route('/', methods=["GET", "POST"])
 def index():
     global SLEEP_THRESHOLD_SECS, DETECTION_ON
 
     if request.method == "POST":
-        print("hello")
+        
         DETECTION_ON = True
+        print(str(DETECTION_ON))
         mins_str = request.form["mins"]
         if mins_str != "":
             mins = int(request.form["mins"])

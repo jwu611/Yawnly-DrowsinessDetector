@@ -1,0 +1,175 @@
+.header{
+  padding-bottom: 70px;
+  margin: auto;
+  width: 50%;
+  text-align: center;
+}
+
+.alert{
+  position:absolute;
+      top: 150px;
+      right: 170px;
+      z-index: 2;
+}
+
+.vid-container{
+  text-align: center;
+  background-color: #FAF2E3;
+  padding: 45px;
+  border-radius: 16px;
+}
+
+.timer-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-group-T {
+  display: flex;
+  justify-content: center;
+}
+
+.alarm-container{
+  display: flex;
+  flex-direction: column;
+}
+.btn-group-A {
+  display: flex;
+  justify-content: center;
+}
+.input-time {
+  margin:auto;
+}
+
+.form {
+  margin:auto;
+  background-color: #FAF2E3;
+  padding: 45px;
+  border-radius: 16px;
+}
+
+/* TYPOGRAPHY */
+h1 {
+  font-family: Epilogue;
+font-style: normal;
+font-weight: bold;
+font-size: 26px;
+text-align: center;
+}
+
+h2 {
+  font-family: Epilogue;
+font-style: normal;
+font-weight: normal;
+font-size: 22px;
+text-align: center;
+color: #5BB789;
+}
+
+p {
+  font-family: Epilogue;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 25px;
+}
+
+/* TOGGLE SWITCH */
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+input:checked + .slider {
+  background-color: #5BB789;
+}
+input:focus + .slider {
+  box-shadow: 0 0 1px #5BB789;
+}
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* BUTTON */
+button {
+  background-color: #FFF;
+ border: 2px solid #E4714C;
+ color: Black;
+ padding: 10px 40px;
+ text-align: center;
+ display: inline-block;
+ font-size: 16px;
+ margin: 25px;
+ border-radius: 16px;
+ font-family: Epilogue;
+font-style: normal;
+transition-duration: 0.4s;
+
+}
+
+button:hover {
+  background-color: #E4714C;
+  color: white;}
+
+.btnstart {
+  text-align: center;
+  background-color: #E4714C;
+ border: 2px solid #E4714C;
+ color: white;
+ padding: 20px 20px;
+ text-align: center;
+ font-size: 16px;
+ margin: 25px;
+ border-radius: 16px;
+ font-family: Epilogue;
+font-style: normal;
+transition: all .2s ease-in-out;
+width: 200px;
+}
+
+.btnstart:hover { transform: scale(1.1);
+}
+
+.start{
+text-align: center;
+}

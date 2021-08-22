@@ -21,7 +21,7 @@ from pygame import mixer
 import keyboard
 
 EYES_CLOSED_FLAG = 0	#1 if eyes closed, 0 otherwise
-sleep_start = None 	# time first asleep; None = never asleep
+sleep_start = None 	#time first asleep; None = never asleep
 CLOSED_EAR_THRESHOLD = 10 	#All EAR under this threshold is considered closed eyes
 SLEEP_THRESHOLD_SECS = 2	#Number of seconds until considered asleep
 MIN_SLEEP_TIME = 5		# Minimum number of seconds of eyes closed to be considered 'asleep'
@@ -59,7 +59,9 @@ def detect_draw_eyes (frame, grayframe):
 	global EYES_CLOSED_FLAG, sleep_start
 
 	timediff = timedelta()
+	keep_detecting = True
 	rects = detector(grayframe, 0)
+
 	# loop over the face detections
 	for rect in rects:
 		# determine the facial landmarks for the face region, then
@@ -95,8 +97,10 @@ def detect_draw_eyes (frame, grayframe):
 			if sleep_start != None:	# sleep has started
 				timediff = datetime.now()-sleep_start
 				print("asleep")
-				if timediff.seconds >= SLEEP_THRESHOLD_SECS:
+				if timediff.seconds >= SLEEP_THRESHOLD_SECS:	#asleep for longer than sleep threshold -> start alarm
 					play_alarm()
+					keep_detecting = False
+					sleep_start = None
 
 		elif EYES_CLOSED_FLAG == 1 and ear > CLOSED_EAR_THRESHOLD:
 			EYES_CLOSED_FLAG = 0
@@ -107,7 +111,7 @@ def detect_draw_eyes (frame, grayframe):
 					print("You were asleep for " + str(timediff) + " seconds")
 					#print("You slept from "+datetime.strftime(sleep_start,'%m/%d/%Y') +" to "+datetime.strftime(sleep_end,'%m/%d/%Y’))
 				sleep_start = None	
-	return timediff, frame
+	return frame, keep_detecting
 
 
 def play_alarm():

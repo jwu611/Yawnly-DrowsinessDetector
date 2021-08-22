@@ -18,17 +18,19 @@
 
 <body>
 
-
-    <!-- Header -->
     <div class="header">
-        <img src="logo-full.png" alt="Yawnly logo" width=25%>
+        <img src="{{ url_for ('static', filename='logo-full.png') }}" alt="Yawnly logo" width=15%>
+    </div>
+
+    <div class="alert-container">
+        <img src="{{ url_for('static', filename='alert.svg') }}" class="alert" width=20%>
     </div>
 
     <!-- Live Camera Feed -->
     <div class="vid-container">
         <div class="row">
             <div class="col-lg-8  offset-lg-2">
-                <img src="{{ url_for('video_feed') }}" width="100%">
+                <img src="{{ url_for('video_feed') }}" width="70%">
             </div>
         </div>
     </div>
