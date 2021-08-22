@@ -82,21 +82,21 @@ def detect_draw_eyes (frame, grayframe):
 
 		# compute the convex hull for the left and right eye, then
 		# visualize each of the eyes
-		leftEyeHull = cv2.convexHull(leftEye)
-		rightEyeHull = cv2.convexHull(rightEye)
-		cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)
-		cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
+		#leftEyeHull = cv2.convexHull(leftEye)
+		#rightEyeHull = cv2.convexHull(rightEye)
+		#cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)
+		#cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
 
 	if len(rects) > 0:
 		if EYES_CLOSED_FLAG == 0 and ear <= CLOSED_EAR_THRESHOLD:
 			EYES_CLOSED_FLAG = 1
 			sleep_start = datetime.now()		# time object recording time when eyes first closed
-			print("sleep started")	
+			#print("sleep started")	
 		
 		elif EYES_CLOSED_FLAG == 1 and ear <= CLOSED_EAR_THRESHOLD:
 			if sleep_start != None:	# sleep has started
 				timediff = datetime.now()-sleep_start
-				print("asleep")
+				#print("asleep")
 				if timediff.seconds >= SLEEP_THRESHOLD_SECS:	#asleep for longer than sleep threshold -> start alarm
 					play_alarm()
 					keep_detecting = False
@@ -107,8 +107,8 @@ def detect_draw_eyes (frame, grayframe):
 			sleep_end = datetime.now()
 			if sleep_start != None:	# sleep has started
 				timediff = sleep_end-sleep_start
-				if timediff.seconds >= MIN_SLEEP_TIME:
-					print("You were asleep for " + str(timediff) + " seconds")
+				#if timediff.seconds >= MIN_SLEEP_TIME:
+					#print("You were asleep for " + str(timediff) + " seconds")
 					#print("You slept from "+datetime.strftime(sleep_start,'%m/%d/%Y') +" to "+datetime.strftime(sleep_end,'%m/%d/%Y’))
 				sleep_start = None	
 	return frame, keep_detecting
@@ -138,7 +138,7 @@ def set_uploaded_alarm(alarm_filename):
 def set_sleep_threshold(new_threshold):
 	global SLEEP_THRESHOLD_SECS
 	SLEEP_THRESHOLD_SECS = new_threshold
-	print("detector sleep thresh = "+str(SLEEP_THRESHOLD_SECS))
+	#print("detector sleep thresh = "+str(SLEEP_THRESHOLD_SECS))
 	
 	#key = cv2.waitKey(1) & 0xFF
  
