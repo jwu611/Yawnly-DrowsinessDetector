@@ -117,7 +117,6 @@ def play_alarm():
 	else:
 		currAlarm = UPLOADED_ALARM
 	print("curr alarm is "+currAlarm)
-	print("mixer status is "+str(mixer.music.get_busy()))
 	while True:
 		time.sleep(0.5)
 		if mixer.music.get_busy() == False:
@@ -125,7 +124,6 @@ def play_alarm():
 			mixer.music.load(currAlarm) #Loading Music File
 			mixer.music.play()
 		if keyboard.read_key() == "q":
-			print("stopping alarm")
 			mixer.music.stop()
 			break
 
@@ -133,7 +131,9 @@ def set_uploaded_alarm(alarm_filename):
 	global UPLOADED_ALARM
 	UPLOADED_ALARM = "./assets/"+alarm_filename
 
-
+def set_sleep_threshold(new_threshold):
+	global SLEEP_THRESHOLD_SECS
+	SLEEP_THRESHOLD_SECS = new_threshold
 	
 	#key = cv2.waitKey(1) & 0xFF
  
