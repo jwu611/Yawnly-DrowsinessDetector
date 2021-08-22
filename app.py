@@ -87,24 +87,31 @@ def yawn():
         print(request.form["mins"])
         print(request.form["secs"])
 
-        if request.files:
-            sound = request.files["sound"]
+        if request.form['radioTime'] == "A1":
+            set_uploaded_alarm("Alarm-ringtone.mp3")
+        
+        elif request.form['radioTime'] == "A2":
+            set_uploaded_alarm("Old-alarm-clock-ringing.mp3")
 
-            if sound.filename == "":
-                print("No filename")
-                return redirect(request.url)
+        else:
+            if request.files:
+                sound = request.files["sound"]
 
-            if allowed_sound(sound.filename):
-                filename = secure_filename(sound.filename)
-                sound.save(os.path.join(
-                    app.config["SOUND_UPLOADS"], filename))
-                print("sound saved")
-                set_uploaded_alarm(filename)
-                return redirect(request.url)
+                if sound.filename == "":
+                    print("No filename")
+                    return redirect(request.url)
 
-            else:
-                print("That file extension is not allowed")
-                return redirect(request.url)
+                if allowed_sound(sound.filename):
+                    filename = secure_filename(sound.filename)
+                    sound.save(os.path.join(
+                        app.config["SOUND_UPLOADS"], filename))
+                    print("sound saved")
+                    set_uploaded_alarm(filename)
+                    return redirect(request.url)
+
+                else:
+                    print("That file extension is not allowed")
+                    return redirect(request.url)
 
     return render_template('index.html')
 
