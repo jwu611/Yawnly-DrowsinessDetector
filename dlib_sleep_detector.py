@@ -134,6 +134,7 @@ def set_uploaded_alarm(alarm_filename):
 def set_sleep_threshold(new_threshold):
 	global SLEEP_THRESHOLD_SECS
 	SLEEP_THRESHOLD_SECS = new_threshold
+	print("detector sleep thresh = "+str(SLEEP_THRESHOLD_SECS))
 	
 	#key = cv2.waitKey(1) & 0xFF
  

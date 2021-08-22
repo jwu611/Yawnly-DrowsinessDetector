@@ -1,7 +1,7 @@
 #Import necessary libraries
 import imutils
 from flask import Flask, render_template, Response, request, redirect
-from dlib_sleep_detector import SLEEP_THRESHOLD_SECS, detect_draw_eyes, set_uploaded_alarm
+from dlib_sleep_detector import SLEEP_THRESHOLD_SECS, detect_draw_eyes, set_uploaded_alarm, set_sleep_threshold
 from imutils.video import VideoStream
 from imutils.video import FileVideoStream
 from imutils import face_utils
@@ -20,12 +20,12 @@ camera = cv2.VideoCapture(0)
 time.sleep(1)
 
 # use a method to grab the root directory of the current device
-app.config["SOUND_UPLOADS"] = "C:\\Users\\Hannah\\Yawnly-DrowsinessDetector\\assets"
+app.config["SOUND_UPLOADS"] = "./assets" #"C:\\Users\\Hannah\\Yawnly-DrowsinessDetector\\assets"
 app.config["ALLOWED_SOUND_EXTENSIONS"] = ["WAV", "MP3"]
 
 
 def generate():
-    global DETECTION_ON
+    global DETECTION_ON, SLEEP_THRESHOLD_SECS
     frame_count = 0  
     while True:
         #time.sleep(0.5)
@@ -41,6 +41,7 @@ def generate():
                 if frame_count % 3 == 0:
                     timediff, frame = detect_draw_eyes (frame, gray)
                     if timediff.total_seconds() >= SLEEP_THRESHOLD_SECS:
+                        print("app sleep thresh = "+str(SLEEP_THRESHOLD_SECS))
                         DETECTION_ON = False
                         #camera.release()
                         #break
@@ -52,8 +53,28 @@ def generate():
 
 @app.route('/', methods=["GET", "POST"])
 def index():
+    global SLEEP_THRESHOLD_SECS, DETECTION_ON
+
     if request.method == "POST":
         print("hello")
+        DETECTION_ON = True
+        mins_str = request.form["mins"]
+        if mins_str != "":
+            mins = int(request.form["mins"])
+        else:
+            mins = 0
+        
+        secs_str = request.form["secs"]
+        if secs_str != "":
+            secs = int(request.form["secs"])
+        else:
+            secs = 0
+        new_sleep_thresh = (mins*60)+secs   #sleep threshold must be converted to seconds
+        
+        if new_sleep_thresh > 0:
+            set_sleep_threshold(new_sleep_thresh)
+            SLEEP_THRESHOLD_SECS = new_sleep_thresh
+
         print(request.form["mins"])
         print(request.form["secs"])
 
@@ -69,6 +90,7 @@ def index():
                 sound.save(os.path.join(
                     app.config["SOUND_UPLOADS"], filename))
                 print("sound saved")
+                set_uploaded_alarm(filename)
                 return redirect(request.url)
 
             else:
