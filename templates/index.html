@@ -32,15 +32,7 @@
     </div>
 </div>
 
-<div>
-  <p>Show/Hide Outlines</p>
-<!-- Rounded switch -->
-<label class="switch">
-  <input type="checkbox">
-  <span class="slider round"></span>
-</label>
-</div>
-
+<br><br><br><br>
 <!-- Timer Customization -->
 <div class="timer-container">
   <div class="timer-txt-group">
@@ -49,11 +41,11 @@
   </div>
 <!-- Timer Buttons -->
   <div class="btn-group-T">
-    <button>5 sec</button> &nbsp;&nbsp;&nbsp;
-    <button>20 sec</button> &nbsp;&nbsp;&nbsp;
+    <button>5 secs</button> &nbsp;&nbsp;&nbsp;
+    <button>20 secs</button> &nbsp;&nbsp;&nbsp;
     <button>Custom</button>
 </div>
-<br><br>
+<br>
 <!-- Timer Input -->
 <div class="input-time">
  <input type="number" id="mins" name="mins" min="0" max="999">
@@ -61,7 +53,7 @@
  <input type="number" id="secs" name="secs" min="0" max="999">
   <label for="secs">seconds</label>
 </div>
-<br><br>
+<br><br><br><br>
 
 <!-- Alarm Customization -->
 <div class="alarm-container">
@@ -70,20 +62,24 @@
     <h2>Choose a tone</h2>
   </div>
 
-  <br><br>
   <div class="btn-group-A">
     <button>Beeper</button> &nbsp;&nbsp;&nbsp;
     <button>Ringer</button> &nbsp;&nbsp;&nbsp;
     <button>Custom</button>
     </div>
+    <br>
+    <div class="form">
     <form action="/action_page.php">
   <input type="file" id="myFile" name="filename">
-  <input type="submit">
+  <input type="submit" class="submitalarm">
 </form>
-
+</div>
 </div>
 
-<button class="start" type="button">Start</button>
+<br><br>
+<div class="start">
+<button class="btnstart" type="button">Start</button>
+</div>
 
 
 </div>

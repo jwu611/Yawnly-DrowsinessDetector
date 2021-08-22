@@ -3,8 +3,6 @@
   margin: auto;
   width: 50%;
   text-align: center;
-  background: #555;
- color: #f1f1f1;
 }
 
 
@@ -33,6 +31,14 @@
 .input-time {
   margin:auto;
 }
+
+.form {
+  margin:auto;
+  background-color: #FAF2E3;
+  padding: 45px;
+  border-radius: 16px;
+}
+
 /* TYPOGRAPHY */
 h1 {
   font-family: Epilogue;
@@ -46,8 +52,9 @@ h2 {
   font-family: Epilogue;
 font-style: normal;
 font-weight: normal;
-font-size: 24px;
+font-size: 22px;
 text-align: center;
+color: #5BB789;
 }
 
 p {
@@ -116,20 +123,44 @@ input:checked + .slider:before {
 
 /* BUTTON */
 button {
-  background-color: #4CAF50; /* Green */
- border: none;
- color: white;
- padding: 15px 32px;
+  background-color: #FFF;
+ border: 2px solid #E4714C;
+ color: Black;
+ padding: 10px 40px;
  text-align: center;
- text-decoration: none;
  display: inline-block;
  font-size: 16px;
  margin: 25px;
  border-radius: 16px;
  font-family: Epilogue;
 font-style: normal;
+transition-duration: 0.4s;
+
 }
 
-.start {
-  width: 250px;
+button:hover {
+  background-color: #E4714C;
+  color: white;}
+
+.btnstart {
+  text-align: center;
+  background-color: #E4714C;
+ border: 2px solid #E4714C;
+ color: white;
+ padding: 20px 20px;
+ text-align: center;
+ font-size: 16px;
+ margin: 25px;
+ border-radius: 16px;
+ font-family: Epilogue;
+font-style: normal;
+transition: all .2s ease-in-out;
+width: 200px;
+}
+
+.btnstart:hover { transform: scale(1.1);
+}
+
+.start{
+text-align: center;
 }
